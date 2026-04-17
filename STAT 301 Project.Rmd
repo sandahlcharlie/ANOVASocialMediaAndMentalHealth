@@ -40,11 +40,24 @@ Teen_Mental_Health_Dataset <- Teen_Mental_Health_Dataset %>%
 
 ## Testing if social media platform and gender either interact or one/both have an effect on daily social media hours 
 ```{r}
-mediamodel<- lm(academic_performance ~ anxietyCat+stressCat+anxietyCat*stressCat,
+mediamodel<- aov(academic_performance ~ anxietyCat+stressCat+anxietyCat*stressCat,
                 data = Teen_Mental_Health_Dataset
                   )
-Anova(mediamodel, type="II")
+summary(mediamodel)
+TukeyHSD(mediamodel)
+interaction.plot(Teen_Mental_Health_Dataset$anxietyCat,
+                 Teen_Mental_Health_Dataset$stressCat,
+                 as.numeric(Teen_Mental_Health_Dataset$academic_performance),
+                 xlab = "Anxiety",
+                 ylab = "Mean Academic Performance",
+                 trace.label = "Levels",
+                 fun = 'mean')
 ```
+
+```{r}
+
+```
+
 
 ## Converting daily social media hours into a categorical variable with levels based on column mean and sd 
 ```{r}
