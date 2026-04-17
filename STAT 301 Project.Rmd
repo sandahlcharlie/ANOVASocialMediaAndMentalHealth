@@ -38,22 +38,6 @@ Teen_Mental_Health_Dataset <- Teen_Mental_Health_Dataset %>%
 ```
 
 
-```{r}
-mean(Teen_Mental_Health_Dataset$daily_social_media_hours)
-sd(Teen_Mental_Health_Dataset$daily_social_media_hours)
-mean(Teen_Mental_Health_Dataset$sleep_hours)
-sd(Teen_Mental_Health_Dataset$sleep_hours)
-mean(Teen_Mental_Health_Dataset$screen_time_before_sleep)
-sd(Teen_Mental_Health_Dataset$screen_time_before_sleep)
-mean(Teen_Mental_Health_Dataset$academic_performance)
-sd(Teen_Mental_Health_Dataset$academic_performance)
-mean(Teen_Mental_Health_Dataset$stress_level)
-sd(Teen_Mental_Health_Dataset$stress_level)
-
-
-```
-
-
 ## Testing if social media platform and gender either interact or one/both have an effect on daily social media hours 
 ```{r}
 mediamodel<- lm(academic_performance ~ anxietyCat+stressCat+anxietyCat*stressCat,
