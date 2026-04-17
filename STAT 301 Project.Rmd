@@ -1,0 +1,54 @@
+---
+title: "STAT 301 Project"
+author: "Mike Slathar"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(car)
+```
+
+
+## Testing if social media platform and gender either interact or one/both have an effect on daily social media hours 
+```{r}
+mediamodel<- lm(daily_social_media_hours~gender+platform_usage+gender*platform_usage, data= Teen_Mental_Health_Dataset)
+Anova(mediamodel, type="II")
+```
+
+## Converting daily social media hours into a categorical variable with levels based on column mean and sd 
+```{r}
+m  = mean(Teen_Mental_Health_Dataset$daily_social_media_hours, na.rm = TRUE)
+sd_val = sd(Teen_Mental_Health_Dataset$daily_social_media_hours, na.rm = TRUE)
+
+Teen_Mental_Health_Dataset$daily_screen_time_levels = cut(
+  Teen_Mental_Health_Dataset$daily_social_media_hours,
+  breaks = c(-Inf, m - sd_val, m + sd_val, Inf),
+  labels = c("low", "average", "high")
+)
+
+Teen_Mental_Health_Dataset$daily_screen_time_levels= factor(Teen_Mental_Health_Dataset$daily_screen_time_levels, levels = c("low", "average", "high"), ordered = TRUE)
+```
+
+## converting screen_time_before_sleep into categorical variables based on column mean and sd
+```{r}
+m1  = mean(Teen_Mental_Health_Dataset$screen_time_before_sleep, na.rm = TRUE)
+sd_val1 = sd(Teen_Mental_Health_Dataset$screen_time_before_sleep, na.rm = TRUE)
+
+Teen_Mental_Health_Dataset$screen_time_before_sleep_levels = cut(
+  Teen_Mental_Health_Dataset$screen_time_before_sleep,
+  breaks = c(-Inf, m1 - sd_val1, m1 + sd_val1, Inf),
+  labels = c("low", "average", "high")
+)
+
+Teen_Mental_Health_Dataset$screen_time_before_sleep_levels = factor(Teen_Mental_Health_Dataset$screen_time_before_sleep_levels, levels = c("low", "average", "high"), ordered = TRUE)
+```
+
+
+
+
