@@ -14,10 +14,51 @@ library(tidyverse)
 library(car)
 ```
 
+```{r}
+Teen_Mental_Health_Dataset = read_csv("Teen_Mental_Health_Dataset.csv")
+numericCols = c(Teen_Mental_Health_Dataset$age,
+                Teen_Mental_Health_Dataset$daily_social_media_hours,
+                Teen_Mental_Health_Dataset$sleep_hours,
+                Teen_Mental_Health_Dataset$screen_time_before_sleep,
+                Teen_Mental_Health_Dataset$academic_performance,
+                Teen_Mental_Health_Dataset$physical_activity
+                )
+categoricalCols = c(Teen_Mental_Health_Dataset$gender,
+                    Teen_Mental_Health_Dataset$platform_usage,
+                    Teen_Mental_Health_Dataset$social_interaction_level,
+                    Teen_Mental_Health_Dataset$stress_level,
+                    Teen_Mental_Health_Dataset$anxiety_level,
+                    Teen_Mental_Health_Dataset$addiction_level)
+```
+
+```{r}
+Teen_Mental_Health_Dataset <- Teen_Mental_Health_Dataset %>% 
+  mutate(anxietyCat = if_else(anxiety_level <= 5, "low", "high"),
+        stressCat = if_else(stress_level <= 5, "low", "high"))
+```
+
+
+```{r}
+mean(Teen_Mental_Health_Dataset$daily_social_media_hours)
+sd(Teen_Mental_Health_Dataset$daily_social_media_hours)
+mean(Teen_Mental_Health_Dataset$sleep_hours)
+sd(Teen_Mental_Health_Dataset$sleep_hours)
+mean(Teen_Mental_Health_Dataset$screen_time_before_sleep)
+sd(Teen_Mental_Health_Dataset$screen_time_before_sleep)
+mean(Teen_Mental_Health_Dataset$academic_performance)
+sd(Teen_Mental_Health_Dataset$academic_performance)
+mean(Teen_Mental_Health_Dataset$stress_level)
+sd(Teen_Mental_Health_Dataset$stress_level)
+
+
+```
+
 
 ## Testing if social media platform and gender either interact or one/both have an effect on daily social media hours 
 ```{r}
-mediamodel<- lm(daily_social_media_hours~gender+platform_usage+gender*platform_usage, data= Teen_Mental_Health_Dataset)
+mediamodel<- lm(academic_performance ~ anxietyCat+stressCat+anxietyCat*stressCat,
+                data = Teen_Mental_Health_Dataset
+                  )
 Anova(mediamodel, type="II")
 ```
 
